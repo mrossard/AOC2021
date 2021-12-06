@@ -9,13 +9,7 @@ foreach($fishes as $fish){
     $sums[$fish]  = ($sums[$fish]??0) +1;
 }
 
-echo 'Day 0 : ', PHP_EOL;
-for($i = 0; $i <= 8; $i++)
-    echo $i, " : ", $sums[$i]??0, PHP_EOL;
-
 for($day=1; $day <= $nbDays; $day++){
-
-    echo PHP_EOL, 'Day ', $day, ': ', PHP_EOL;
 
     $newSums[0] = $sums[1] ?? 0;
     $newSums[1] = $sums[2] ?? 0;
@@ -28,9 +22,6 @@ for($day=1; $day <= $nbDays; $day++){
     $newSums[8] = $sums[0] ?? 0;
 
     $sums = $newSums;
-
-    for($i = 0; $i <= 8; $i++)
-        echo $i, " : ", $sums[$i], PHP_EOL;
 }
 
 $total = 0;
