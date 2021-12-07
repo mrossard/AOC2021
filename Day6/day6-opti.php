@@ -9,16 +9,8 @@ foreach($fishes as $fish){
     $sums[$fish]  = ($sums[$fish]??0) +1;
 }
 
-for($day=1; $day <= $nbDays; $day++){
-
-    for($i = 0; $i < 8; $i++){
-        $newSums[$i] = $sums[$i+1] ?? 0;
-    }
-
-    $newSums[6] += ($sums[0] ?? 0);
-    $newSums[8] = $sums[0] ?? 0;
-
-    $sums = $newSums;
+for($day=0; $day < $nbDays; ++$day){
+    $sums[($day+7)%9] = ($sums[($day+7)%9] ?? 0) + ($sums[$day%9] ?? 0);
 }
 
 $total = 0;
