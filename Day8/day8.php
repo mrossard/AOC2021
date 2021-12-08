@@ -20,17 +20,14 @@ function getWordMap(array $words, array $segmentFrequency, array $target): array
             }
         }
         if (count($letters[$letter]['candidates']) == 1) {
-//            echo "Matched segment : ", $letter , ' ', $letters[$letter]['candidates'][0], PHP_EOL;
             $segmentMap[$letter] = $letters[$letter]['candidates'][0];
             unset($letters[$letter]);
         }
     }
 
     //on essaye de matcher les mots sur les cibles
-    //$words = explode(' ', $digits);
     $wordMap = [];
     foreach ($words as $word) {
-        //echo $word, PHP_EOL;
         foreach ($target as $number => $segments) {
             if (strlen($word) !== strlen($segments))
                 continue;
@@ -63,15 +60,6 @@ function getWordMap(array $words, array $segmentFrequency, array $target): array
     }
     unset($wordMap[6][$wordMap[0][array_key_first($wordMap[0])]]);
 
-/*    foreach($wordMap as $number=>$candidates){
-        if(count($candidates) == 1){
-            echo 'matched number : ', $number, ' : ', implode('', $candidates), PHP_EOL;
-        }
-        else{
-            echo 'Unmatched number : ', $number, ' : ', implode(' ', $candidates), PHP_EOL;
-        }
-    }*/
-
     foreach($wordMap as $number=>$candidates){
         $wordMap[$number] = array_pop($candidates);
     }
@@ -103,7 +91,6 @@ $line = implode($target);
 $segmentFrequency = [];
 foreach(range('a', 'g') as $letter){
     $frequency = substr_count($line, $letter);
-//    echo $letter, ' : ', $frequency, PHP_EOL;
     $segmentFrequency[$letter] = $frequency;
 }
 
@@ -136,5 +123,3 @@ foreach($input as $id=> $line){
 
 echo " Uniques : ", $uniqueCount, PHP_EOL;
 echo " Total : ", $total, PHP_EOL;
-
-
