@@ -5,49 +5,45 @@ class Octopus{
     /**
      * @var Octopus[]
      */
-    private array $neigbours;
+    private array $neighbours;
 
     private array $flashes;
 
-    function __construct(private int $energyLevel, private int $position)
+    public function __construct(private int $energyLevel, private int $position)
     {
         $this->flashes = [];
-        $this->neigbours = [];
+        $this->neighbours = [];
     }
 
-    function newStep(){
+    public function newStep() : void
+    {
         if($this->energyLevel > 9) {
             $this->energyLevel = 0;
         }
     }
 
-    function levelUp(int $step){
+    public function levelUp(int $step): void
+    {
         $this->energyLevel++;
         if($this->energyLevel === 10){
             $this->flash($step);
         }
     }
 
-    function addNeighbour(Octopus $neighbour){
-        if(!array_key_exists($neighbour->getPosition(), $this->neigbours)){
-            $this->neigbours[$neighbour->getPosition()] = $neighbour;
+    public function addNeighbour(Octopus $neighbour): void
+    {
+        if(!array_key_exists($neighbour->getPosition(), $this->neighbours)){
+            $this->neighbours[$neighbour->getPosition()] = $neighbour;
             $neighbour->addNeighbour($this);
         }
     }
 
-    function flash(int $step){
-        $this->flashes[$step] = true;
-        foreach($this->neigbours as $neigbour){
-            $neigbour->levelUp($step);
-        }
-    }
-
-    /**
-     * @return int
-     */
-    public function getNbFlashes(): int
+    public function flash(int $step): void
     {
-        return count($this->flashes);
+        $this->flashes[$step] = true;
+        foreach($this->neighbours as $neighbour){
+            $neighbour->levelUp($step);
+        }
     }
 
     /**
@@ -58,15 +54,7 @@ class Octopus{
         return $this->position;
     }
 
-    /**
-     * @return int
-     */
-    public function getEnergyLevel(): int
-    {
-        return $this->energyLevel;
-    }
-
-    public function hasFlashed(int $step)
+    public function hasFlashed(int $step) : bool
     {
         return array_key_exists($step, $this->flashes);
     }
