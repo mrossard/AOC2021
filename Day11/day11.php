@@ -72,43 +72,15 @@ class Octopus{
     }
 }
 
-
 /**
  * @param Octopus[] $octopuses
+ * @param int|null $stop
  * @return void
  */
-function part1(array $octopuses) : void
-{
-    for ($i = 0; $i < 100; $i++) {
-        $nbFlashes = 0;
-        foreach ($octopuses as $octopus) {
-            $octopus->levelUp($i + 1);
-        }
-        foreach ($octopuses as $octopus) {
-            if ($octopus->hasFlashed($i + 1)) {
-                $nbFlashes++;
-            }
-            $octopus->newStep();
-        }
-
-    }
-
-    $flashes = 0;
-    foreach ($octopuses as $octopus) {
-        $flashes += $octopus->getNbFlashes();
-    }
-
-    echo $flashes, PHP_EOL;
-}
-
-
-/**
- * @param Octopus[] $octopuses
- * @return void
- */
-function part2(array $octopuses) : void
+function run(array $octopuses, int $stop=null) : void
 {
     $i = 1;
+    $totalFlashes = 0;
     while (true) {
         $nbFlashes = 0;
         foreach ($octopuses as $octopus) {
@@ -121,11 +93,14 @@ function part2(array $octopuses) : void
             $octopus->newStep();
         }
 
-        echo "Step ", $i, ' : ', $nbFlashes, ' flashes', PHP_EOL;
+        $totalFlashes += $nbFlashes;
 
-        if ($nbFlashes === count($octopuses)) {
+        if ($i === $stop || $nbFlashes === count($octopuses)) {
+            echo "Step ", $i, ' : ', $nbFlashes, ' flashes', PHP_EOL;
+            echo 'Total : ', $totalFlashes;
             break;
         }
+
         $i++;
     }
 }
@@ -157,9 +132,9 @@ foreach($input as $y=>$line){
     }
 }
 
-if(($argv[2]??'1') === '1') {
-    part1($octopuses);
+if($argc === 3) {
+    run($octopuses, $argv[2]); //100 pour la partie 1
 }
 else{
-    part2($octopuses);
+    run($octopuses);
 }
