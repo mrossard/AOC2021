@@ -4,7 +4,8 @@ $input = file($argv[1]);
 
 $caves = [];
 foreach($input as $line){
-    list($cave1, $cave2) = explode('-', substr($line, 0, -1));
+    [$cave1, $cave2] = explode('-', substr($line, 0, -1));
+
     $caves[$cave1][] = $cave2;
     $caves[$cave2][] = $cave1;
 }
@@ -22,7 +23,6 @@ function countPaths($caves, $from, $to, $visited, $part2 = false) : int
                 if($part2 && in_array(2, $visited, true)) {
                     continue;
                 }
-
                 if(!$part2) {
                     continue;
                 }
