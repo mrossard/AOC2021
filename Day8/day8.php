@@ -96,7 +96,7 @@ foreach(range('a', 'g') as $letter){
 
 $input = file($argv[1]);
 
-//partie 1
+//parties 1 & 2
 $uniqueCount = 0;
 $total = 0;
 foreach($input as $id=> $line){
