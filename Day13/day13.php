@@ -40,7 +40,7 @@ function fold(array $points, array $folds, &$maxX, &$maxY) : array
 function printPoints($points, $maxX, $maxY){
     for($y = 0; $y <= $maxY; $y++){
         for($x = 0; $x <= $maxX; $x++){
-            echo $points[$y][$x] ?? '.';
+            echo $points[$y][$x] ?? ' ';
         }
         echo PHP_EOL;
     }
@@ -54,7 +54,7 @@ $maxX = 0;
 $maxY = 0;
 while($line !== "\n"){
     [$x, $y] = explode(',', substr($line, 0, -1));
-    $points[(int)$y][(int)$x] = "#";
+    $points[(int)$y][(int)$x] = '█';
     if((int)$x > $maxX){
         $maxX = $x;
     }
