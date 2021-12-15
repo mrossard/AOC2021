@@ -142,11 +142,8 @@ class Grid
                     foreach ($riskLine as $x => $risk) {
                         $posX = $x + $offsetX;
                         $posY = $y + $offsetY;
-                        $decalage = ($itX + $itY);
-                        $risk = (int)$risk + $decalage;
-                        while($risk > 9){
-                            $risk -= 9;
-                        }
+
+                        $risk = ((int)$risk + $itX + $itY - 1) % 9 + 1;
 
                         $this->addPoint(new Point($posX, $posY, (int)$risk), $posY * $this->sizeX + $posX);
                     }
