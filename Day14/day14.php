@@ -6,10 +6,10 @@ function insert(array $pairs, array $insertions, array $totals) : array
     foreach ($insertions as $start => $insertion) {
         foreach ($insertion as $end => $insert) {
             if(array_key_exists($start.$end, $pairs)){
-                $totals[$insert] = ($totals[$insert]??0) + $pairs[$start.$end];
-                $newPairs[$start.$insert] = ($newPairs[$start.$insert] ?? 0) +  $pairs[$start.$end];
-                $newPairs[$insert.$end] = ($newPairs[$insert.$end] ??  0) +  $pairs[$start.$end];
-                $newPairs[$start.$end] -= $pairs[$start.$end];
+                $totals[$insert] = gmp_add(($totals[$insert]??0),  $pairs[$start.$end]);
+                $newPairs[$start.$insert] = gmp_add(($newPairs[$start.$insert] ?? 0) , $pairs[$start.$end]);
+                $newPairs[$insert.$end] = gmp_add(($newPairs[$insert.$end] ??  0) , $pairs[$start.$end]);
+                $newPairs[$start.$end] = gmp_sub($newPairs[$start.$end], $pairs[$start.$end]);
             }
         }
     }
@@ -47,4 +47,4 @@ for($i=1; $i <= $argv[2]; $i++){
 
 sort($totals);
 
-echo 'Result : ', $totals[array_key_last($totals)] - $totals[array_key_first($totals)], PHP_EOL;
+echo 'Result : ', gmp_sub($totals[array_key_last($totals)], $totals[array_key_first($totals)]), PHP_EOL;
