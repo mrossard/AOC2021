@@ -123,26 +123,32 @@ class Grid
 
     /**
      * @param string[] $input
+     * @param int $numberOfIterations
      * @return void
      */
     public function readInput(array $input, int $numberOfIterations) : void
     {
-        $tileSizeX = (strlen($input[0]) - 1);
-        $tileSizeY = count($input);
+        $tileSizeX = (strlen($input[0]));
+        $tileSizeY = count($input) ;
         $this->sizeX = $tileSizeX * $numberOfIterations;
         $this->sizeY = $tileSizeY * $numberOfIterations;
 
         for($itY= 0; $itY < $numberOfIterations; $itY++) {
-            $offsetY = $itY * $tileSizeY;
+            $offsetY = $itY * ($tileSizeY);
             for ($itX = 0; $itX < $numberOfIterations; $itX++) {
                 $offsetX = $itX * $tileSizeX;
-                for ($y = 0; $y < $tileSizeY; $y++) {
-                    $line = substr($input[$y], 0, -1);
+                foreach ($input as $y => $line) {
                     $riskLine = str_split($line);
                     foreach ($riskLine as $x => $risk) {
                         $posX = $x + $offsetX;
                         $posY = $y + $offsetY;
-                        $this->addPoint(new Point($posX, $posY, (int)$risk), $posY * $this->sizeX + $posY);
+                        $decalage = ($itX + $itY);
+                        $risk = (int)$risk + $decalage;
+                        while($risk > 9){
+                            $risk -= 9;
+                        }
+
+                        $this->addPoint(new Point($posX, $posY, (int)$risk), $posY * $this->sizeX + $posX);
                     }
                 }
             }
@@ -152,7 +158,6 @@ class Grid
     /**
      * A*
      * @return array
-     * @throws ErrorException
      */
     public function traversalCost() : array
     {
@@ -194,29 +199,13 @@ class Grid
             $closed[$current->getY() * $this->sizeY + $current->getX()] = $current;
             $open = Point::sortByWeight($open);
         }
-        throw new ErrorException('woops');
-    }
-
-    /**
-     * @param int $sizeX
-     */
-    public function setSizeX(int $sizeX): void
-    {
-        $this->sizeX = $sizeX;
-    }
-
-    /**
-     * @param int $sizeY
-     */
-    public function setSizeY(int $sizeY): void
-    {
-        $this->sizeY = $sizeY;
+        die('woops');
     }
 
 }
 
-$grid = new Grid(file($argv[1]), $argv[2]??1);
+$grid = new Grid(file($argv[1], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES), $argv[2]??1);
 
 $points = $grid->traversalCost();
 
-var_dump($points[$grid->getSizeY() * $grid->getSizeX() -1]->getWeight());
+echo $points[$grid->getSizeY() * $grid->getSizeX() -1]->getWeight(), PHP_EOL;

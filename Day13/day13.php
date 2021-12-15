@@ -66,7 +66,7 @@ while($line !== "\n"){
 }
 
 $folds = [];
-for($j=$i+1; $j < count($input); $j++){
+for($j=$i+1, $jMax = count($input); $j < $jMax; $j++){
     $line = explode('=',$input[$j]);
     $direction = substr($line[0], -1);
     $length = (int) $line[1];

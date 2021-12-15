@@ -21,7 +21,7 @@ $input = file($argv[1]);
 $template = substr($input[0], 0, -1);
 
 $insertions = [];
-for($line = 2; $line < count($input); $line++){
+for($line = 2, $lineMax = count($input); $line < $lineMax; $line++){
     [$pair, $insert] = explode(' -> ', substr($input[$line], 0, -1));
     $insertions[$pair[0]][$pair[1]] = $insert;
 }
@@ -29,7 +29,7 @@ for($line = 2; $line < count($input); $line++){
 //paires
 $pairs = [];
 $split = str_split($template);
-for ($a = 0, $b = 1; $b < count($split); $a++, $b++) {
+for ($a = 0, $b = 1, $bMax = count($split); $b < $bMax; $a++, $b++) {
     $pairs[$split[$a].$split[$b]] = ($pairs[$split[$a].$split[$b]] ?? 0) + 1;
 }
 
