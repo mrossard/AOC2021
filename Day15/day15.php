@@ -51,15 +51,11 @@ class Point
      */
     public static function sortByWeight(array $points) : array
     {
-        /*uasort($points, function(Point $a, Point $b){
-            return $a->getWeight() <=> $b->getWeight();
-        });
-        return $points;*/
-
         $newPoints = [];
         $weights = [];
         foreach($points as $point){
-            $weights[$point->getWeight()] = $point->getWeight();
+            $weight1 = $point->getWeight();
+            $weights[$weight1] = $weight1;
         }
         sort($weights);
 
@@ -177,10 +173,10 @@ class Grid
             if ($current->getX() === $target->getX() && $current->getY() == $target->getY()) {
                 return [($current->getY() * $this->sizeX + $current->getX()) => $current, ...$closed];
             }
-            foreach ([[$current->getX() - 1, $current->getY()],
-                         [$current->getX(), $current->getY() + 1],
-                         [$current->getX() + 1, $current->getY()],
-                         [$current->getX(), $current->getY() - 1]] as [$x2, $y2]) {
+            foreach ([[$current->getX() + 1, $current->getY()],
+                         [$current->getX(), $current->getY() - 1],
+                         [$current->getX() - 1, $current->getY()],
+                         [$current->getX(), $current->getY() + 1]] as [$x2, $y2]) {
 
                 if ($x2 >= 0 && $x2 < $this->sizeX && $y2 >= 0 && $y2 < $this->sizeY) {
                     $position2 = $y2 * $this->sizeX + $x2;
